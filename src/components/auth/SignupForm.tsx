@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '../ui/input';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 const formSchema = z
   .object({
@@ -30,6 +31,8 @@ const formSchema = z
 type FormSchema = z.infer<typeof formSchema>;
 
 function SignupForm() {
+  const supabase = createClientComponentClient();
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,8 +44,14 @@ function SignupForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<FormSchema> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
+    await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+      options: {
+        emailRedirectTo: `${location.origin}/auth/callback`,
+      },
+    });
   };
 
   return (
@@ -122,7 +131,7 @@ function SignupForm() {
         />
 
         <Button type='submit' className='mt-6'>
-          Submit
+          Sign Up
         </Button>
       </form>
     </Form>

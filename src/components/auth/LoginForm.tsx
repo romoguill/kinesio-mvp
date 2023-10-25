@@ -4,58 +4,88 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
-const formSchema = z
-  .object({
-    firstName: z.string(),
-    lastName: z.string(),
-    email: z.string().email(),
-    password: z.string(),
-    passwordConfirm: z.string(),
-  })
-  .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
-    message: "Passwords dont't match",
-  });
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
+
+const formSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
 
 type FormSchema = z.infer<typeof formSchema>;
 
-function SigninForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormSchema>({
+function LoginForm() {
+  const supabase = createClientComponentClient();
+  const router = useRouter();
+
+  const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
       email: '',
       password: '',
-      passwordConfirm: '',
     },
   });
 
-  const onSubmit: SubmitHandler<FormSchema> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormSchema> = async (data) => {
+    await supabase.auth.signInWithPassword({
+      email: data.email,
+      password: data.password,
+    });
+
+    router.refresh();
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col'>
-      <input
-        {...register('firstName')}
-        placeholder='First Name'
-        className='px-3 py-2'
-      />
-      <input {...register('lastName')} placeholder='Last Name' />
-      <input type='email' {...register('email')} placeholder='Email' />
-      <input type='password' {...register('password')} placeholder='Password' />
-      <input
-        type='password'
-        {...register('passwordConfirm')}
-        placeholder='Confirm password'
-      />
-      <button>Login</button>
-    </form>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className='flex flex-col gap-2'
+      >
+        <FormField
+          control={form.control}
+          name='email'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder='Email' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='password'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input placeholder='Password' {...field} type='password' />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type='submit' className='mt-6'>
+          Login
+        </Button>
+      </form>
+    </Form>
   );
 }
 
-export default SigninForm;
+export default LoginForm;
