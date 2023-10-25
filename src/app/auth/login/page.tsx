@@ -1,5 +1,5 @@
 import AuthForm from '@/components/auth/AuthForm';
-import SigninForm from '@/components/auth/SigninForm';
+import SigninForm from '@/components/auth/LoginForm';
 import AuthContainer from '../AuthContainer';
 
 function Login() {

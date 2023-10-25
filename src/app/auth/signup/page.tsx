@@ -1,10 +1,11 @@
 import AuthForm from '@/components/auth/AuthForm';
 import AuthContainer from '../AuthContainer';
+import SignupForm from '@/components/auth/SignupForm';
 
 function SignUp() {
   return (
     <AuthContainer>
-      <AuthForm view='sign_up' />
+      <SignupForm />
     </AuthContainer>
   );
 }

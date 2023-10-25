@@ -3,7 +3,7 @@
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa, ViewType } from '@supabase/auth-ui-shared';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Database } from '@/libs/database.types';
+import { Database } from '@/lib/database.types';
 
 type AuthFormProps = {
   view: ViewType;
