@@ -12,17 +12,15 @@ import {
 import UserAvatar from './UserAvatar';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import useAuth from '@/hooks/useAuth';
 
 type Props = {};
 
 function UserMenu({}: Props) {
   const supabase = createClientComponentClient();
   const router = useRouter();
-
-  useEffect(() => {
-    supabase.auth.getUser().then(console.log);
-    supabase.auth.getSession().then(console.log);
-  }, []);
+  const { user, session } = useAuth();
+  console.log({ user, session });
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -31,6 +29,8 @@ function UserMenu({}: Props) {
       router.replace('/auth/login');
     }
   };
+
+  if (!user) return null;
 
   return (
     <DropdownMenu>

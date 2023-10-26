@@ -1,15 +1,11 @@
+import { AuthContext } from '@/contexts/AuthContext';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 
 function useAuth() {
-  const supabase = createClientComponentClient();
+  const context = useContext(AuthContext);
 
-  useEffect(() => {
-    const getAuth = async () => {
-      const user = await supabase.auth.getUser();
-      const session = await supabase.auth.getSession();
-    };
-  }, []);
+  return context;
 }
 
 export default useAuth;
