@@ -25,10 +25,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
       .then((response) => setSession(response.data.session));
     supabase.auth.getUser().then((response) => setUser(response.data.user));
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      supabase.auth.getUser().then((response) => setUser(response.data.user));
-    });
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+        supabase.auth.getUser().then((response) => setUser(response.data.user));
+      }
+    );
+
+    return () => authListener.subscription.unsubscribe();
   }, [supabase.auth]);
 
   return (

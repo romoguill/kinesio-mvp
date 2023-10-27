@@ -12,17 +12,17 @@ export async function middleware(req: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  console.log(user);
+  console.log(req.nextUrl);
 
-  if (!user) {
-    console.log('hola');
+  if (!user && !req.nextUrl.pathname.startsWith('/auth')) {
     const newUrl = new URL('auth/login', req.nextUrl.origin);
-    NextResponse.redirect(newUrl);
+    console.log(newUrl.href);
+    return NextResponse.redirect(newUrl);
   }
 
   return res;
 }
 
 export const config = {
-  matcher: ['/', '/account'],
+  matcher: ['/', '/account', '/about'],
 };

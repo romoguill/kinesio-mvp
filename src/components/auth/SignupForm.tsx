@@ -15,6 +15,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '../ui/input';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 const formSchema = z
   .object({
@@ -32,6 +34,7 @@ type FormSchema = z.infer<typeof formSchema>;
 
 function SignupForm() {
   const supabase = createClientComponentClient();
+  const router = useRouter();
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -50,8 +53,18 @@ function SignupForm() {
       password: data.password,
       options: {
         emailRedirectTo: `${location.origin}/auth/callback`,
+        data: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+        },
       },
     });
+
+    toast.success('Check your email to confirm account', {
+      duration: 3000,
+    });
+
+    router.push('/auth/login');
   };
 
   return (

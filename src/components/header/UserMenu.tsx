@@ -1,6 +1,8 @@
 'use client';
 
+import useAuth from '@/hooks/useAuth';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,9 +12,6 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import UserAvatar from './UserAvatar';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import useAuth from '@/hooks/useAuth';
 
 type Props = {};
 
@@ -39,6 +38,7 @@ function UserMenu({}: Props) {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>Account</DropdownMenuLabel>
+        <DropdownMenuItem>{user.email}</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className='text-red-500 hover:text-red-500 font-semibold hover:bg-red-50 cursor-pointer'
