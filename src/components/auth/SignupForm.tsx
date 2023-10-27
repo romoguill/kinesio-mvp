@@ -23,11 +23,12 @@ const formSchema = z
     firstName: z.string().min(1),
     lastName: z.string().min(1),
     email: z.string().email(),
-    password: z.string().min(4),
-    passwordConfirm: z.string().min(4),
+    password: z.string().min(6),
+    passwordConfirm: z.string().min(6),
   })
   .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
     message: "Passwords dont't match",
+    path: ['passwordConfirm'],
   });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -48,7 +49,7 @@ function SignupForm() {
   });
 
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    await supabase.auth.signUp({
+    const response = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
       options: {
@@ -59,6 +60,8 @@ function SignupForm() {
         },
       },
     });
+
+    console.log(response);
 
     toast.success('Check your email to confirm account', {
       duration: 3000,
