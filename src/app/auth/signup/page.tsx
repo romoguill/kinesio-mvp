@@ -1,11 +1,9 @@
-import AuthForm from '@/components/auth/AuthForm';
-import AuthContainer from '../AuthContainer';
+import AuthProviderButton from '@/components/auth/AuthProviderButton';
 import SignupForm from '@/components/auth/SignupForm';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
-import { FcGoogle } from 'react-icons/fc';
-import AuthProviderButton from '@/components/auth/AuthProviderButton';
+import { redirect } from 'next/navigation';
+import AuthContainer from '../AuthContainer';
 
 async function SignUp() {
   const supabase = createServerComponentClient({ cookies });
@@ -27,7 +25,7 @@ async function SignUp() {
           or
         </p>
       </div>
-      <AuthProviderButton icon={FcGoogle} size={20}>
+      <AuthProviderButton size={20} provider='google'>
         Sign Up with Google
       </AuthProviderButton>
     </AuthContainer>
