@@ -18,15 +18,15 @@ import { Button } from '../ui/button';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import toast from 'react-hot-toast/headless';
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string(),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
 
-function LoginForm() {
+function PasswordRecoveryForm() {
   const supabase = createClientComponentClient();
   const router = useRouter();
 
@@ -34,15 +34,15 @@ function LoginForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
-      password: '',
     },
   });
 
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    await supabase.auth.signInWithPassword({
-      email: data.email,
-      password: data.password,
+    await supabase.auth.resetPasswordForEmail(data.email, {
+      redirectTo: `${location.href}`,
     });
+
+    toast.success('');
 
     router.refresh();
   };
@@ -67,33 +67,12 @@ function LoginForm() {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name='password'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input placeholder='Password' {...field} type='password' />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Link
-          href={'/auth/password-recovery'}
-          className='text-xs text-end text-orange-600'
-        >
-          Forgot password?
-        </Link>
-
         <Button type='submit' className='mt-6'>
-          Login
+          Recover
         </Button>
       </form>
     </Form>
   );
 }
 
-export default LoginForm;
+export default PasswordRecoveryForm;
