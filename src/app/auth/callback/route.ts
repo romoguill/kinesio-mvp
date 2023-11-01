@@ -7,13 +7,16 @@ export async function GET(request: NextRequest) {
   const code = requestUrl.searchParams.get('code');
 
   const cookieStore = cookies();
-  console.log(cookieStore);
 
   if (code) {
     const cookieStore = cookies();
-    console.log(cookieStore);
     const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
-    await supabase.auth.exchangeCodeForSession(code);
+    try {
+      await supabase.auth.exchangeCodeForSession(code);
+    } catch (error) {
+      console.log('Error exchanging cookie');
+      console.log(error);
+    }
   }
 
   // URL to redirect to after sign in process completes

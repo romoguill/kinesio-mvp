@@ -39,10 +39,12 @@ function PasswordRecoveryForm() {
 
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
     await supabase.auth.resetPasswordForEmail(data.email, {
-      redirectTo: `${location.href}`,
+      redirectTo: `${location.origin}/account/reset-password`,
     });
 
-    toast.success('');
+    toast.success('Please check your email to reset password', {
+      duration: 3000,
+    });
 
     router.refresh();
   };

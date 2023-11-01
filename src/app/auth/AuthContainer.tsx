@@ -4,7 +4,7 @@ type AuthContainerProps = {
 
 function AuthContainer({ children }: AuthContainerProps) {
   return (
-    <div className='max-w-xs lg:max-w-md mx-auto h-screen flex flex-col justify-center p-2'>
+    <div className='w-64 sm:w-80 lg:w-96 mx-auto flex flex-col justify-center p-2 grow'>
       {children}
     </div>
   );
