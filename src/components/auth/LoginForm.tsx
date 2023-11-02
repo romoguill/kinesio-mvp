@@ -18,6 +18,7 @@ import { Button } from '../ui/button';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import SubmitErrorMessage from '../forms/SubmitErrorMessage';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -39,10 +40,14 @@ function LoginForm() {
   });
 
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    await supabase.auth.signInWithPassword({
+    const response = await supabase.auth.signInWithPassword({
       email: data.email,
       password: data.password,
     });
+
+    if (response.error) {
+      form.setError('root.authError', { message: response.error.message });
+    }
 
     router.refresh();
   };
@@ -87,6 +92,12 @@ function LoginForm() {
         >
           Forgot password?
         </Link>
+
+        {form.formState.errors.root?.authError && (
+          <SubmitErrorMessage className='mt-1 -mb-4'>
+            {form.formState.errors.root?.authError.message}
+          </SubmitErrorMessage>
+        )}
 
         <Button type='submit' className='mt-6'>
           Login
