@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get('code');
+  const next = requestUrl.searchParams.get('next');
 
   const cookieStore = cookies();
 
@@ -14,9 +15,13 @@ export async function GET(request: NextRequest) {
     try {
       await supabase.auth.exchangeCodeForSession(code);
     } catch (error) {
-      console.log('Error exchanging cookie');
       console.log(error);
     }
+  }
+
+  if (next) {
+    requestUrl.pathname = next;
+    return NextResponse.redirect(requestUrl);
   }
 
   // URL to redirect to after sign in process completes

@@ -18,7 +18,7 @@ import { Button } from '../ui/button';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import toast from 'react-hot-toast/headless';
+import toast from 'react-hot-toast';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -38,15 +38,20 @@ function PasswordRecoveryForm() {
   });
 
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    await supabase.auth.resetPasswordForEmail(data.email, {
-      redirectTo: `${location.origin}/account/reset-password`,
-    });
+    try {
+      console.log(location.origin);
+      const response = await supabase.auth.resetPasswordForEmail(data.email, {
+        redirectTo: `${location.origin}/auth/callback?next=/account/reset-password`,
+      });
+
+      console.log(response);
+    } catch (error) {
+      console.log('errorrr', error);
+    }
 
     toast.success('Please check your email to reset password', {
       duration: 3000,
     });
-
-    router.refresh();
   };
 
   return (

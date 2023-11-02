@@ -16,11 +16,12 @@ export async function middleware(req: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  console.log(session);
+  if (req.nextUrl.pathname === '/account/reset-password') return res;
 
   if (!user && !req.nextUrl.pathname.startsWith('/auth')) {
     const newUrl = new URL('auth/login', req.nextUrl.origin);
-    console.log(newUrl.href);
+
+    console.log('Redirected to auth');
     return NextResponse.redirect(newUrl);
   }
 
