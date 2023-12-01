@@ -19,13 +19,12 @@ function UserMenu({}: Props) {
   const supabase = createClientComponentClient();
   const router = useRouter();
   const { user, session } = useAuth();
-  console.log({ user, session });
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
 
     if (!error) {
-      router.replace('/auth/login');
+      router.refresh();
     }
   };
 
@@ -36,7 +35,7 @@ function UserMenu({}: Props) {
       <DropdownMenuTrigger>
         <UserAvatar />
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent collisionPadding={10} sideOffset={10}>
         <DropdownMenuLabel>Account</DropdownMenuLabel>
         <DropdownMenuItem>{user.email}</DropdownMenuItem>
         <DropdownMenuSeparator />

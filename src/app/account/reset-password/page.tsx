@@ -1,11 +1,14 @@
+import AuthContainer from '@/app/auth/AuthContainer';
 import PasswordForm from './PasswordForm';
 
 function ResetPassword() {
   return (
-    <div>
-      <h1>Password Reset</h1>
+    <AuthContainer>
+      <h1 className='mb-4 text-xl text-center font-semibold text-muted-foreground'>
+        Password Reset
+      </h1>
       <PasswordForm />
-    </div>
+    </AuthContainer>
   );
 }
 
