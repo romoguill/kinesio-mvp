@@ -12,13 +12,18 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import UserAvatar from './UserAvatar';
+import { useEffect, useState } from 'react';
+import { Database } from '@/lib/database.types';
 
 type Props = {};
 
 function UserMenu({}: Props) {
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
   const router = useRouter();
   const { user, session } = useAuth();
+  const [role, setRole] = useState<Database['public']['Enums']['role'] | null>(
+    null
+  );
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -28,6 +33,20 @@ function UserMenu({}: Props) {
     }
   };
 
+  useEffect(() => {
+    const getRole = async () => {
+      if (!user) return;
+      const { data, error } = await supabase
+        .from('users')
+        .select('role')
+        .eq('id', user.id);
+
+      data && setRole(data[0].role);
+    };
+
+    getRole();
+  }, [supabase, user]);
+
   if (!user) return null;
 
   return (
@@ -35,8 +54,12 @@ function UserMenu({}: Props) {
       <DropdownMenuTrigger>
         <UserAvatar />
       </DropdownMenuTrigger>
-      <DropdownMenuContent collisionPadding={10} sideOffset={10}>
-        <DropdownMenuLabel>Account</DropdownMenuLabel>
+      <DropdownMenuContent
+        collisionPadding={10}
+        sideOffset={10}
+        onCloseAutoFocus={(e) => e.preventDefault()}
+      >
+        <DropdownMenuLabel>Account {`(${role})`}</DropdownMenuLabel>
         <DropdownMenuItem>{user.email}</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem

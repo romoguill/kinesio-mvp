@@ -17,6 +17,7 @@ import { Input } from '../ui/input';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { Database } from '../../lib/database.types';
 
 const formSchema = z
   .object({
@@ -49,25 +50,31 @@ function SignupForm() {
   });
 
   const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-    const response = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-      options: {
-        emailRedirectTo: `${location.origin}/auth/callback`,
-        data: {
-          firstName: data.firstName,
-          lastName: data.lastName,
+    try {
+      const response = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          emailRedirectTo: `${location.origin}/auth/callback`,
+          data: {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            full_name: data.firstName + ' ' + data.lastName,
+            role: 'patient',
+          },
         },
-      },
-    });
+      });
 
-    console.log(response);
+      console.log(response);
 
-    toast.success('Check your email to confirm account', {
-      duration: 3000,
-    });
+      toast.success('Check your email to confirm account', {
+        duration: 3000,
+      });
 
-    router.push('/auth/login');
+      router.push('/auth/login');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
