@@ -1,12 +1,16 @@
 import { SIDEBAR_OPTIONS } from '@/utils/constants';
 import SidebarLink from './SidebarLink';
 
-function SidebarLinkGroup() {
+interface SidebarLinkGroupProps {
+  mobile?: boolean;
+}
+
+function SidebarLinkGroup({ mobile = false }: SidebarLinkGroupProps) {
   return (
     <ul className='flex flex-col gap-4'>
       {SIDEBAR_OPTIONS.map((link) => (
         <li key={link.option} className=''>
-          <SidebarLink link={link} />
+          <SidebarLink link={link} mobile={mobile} />
         </li>
       ))}
     </ul>

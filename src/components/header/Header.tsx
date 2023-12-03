@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import UserAvatar from './UserAvatar';
 import UserMenu from './UserMenu';
+import SidebarMobile from '../sidebar/SidebarMobile';
 
 function Header() {
   return (
@@ -10,7 +11,7 @@ function Header() {
           CareBear
         </h2>
       </Link>
-      <UserMenu />
+      <SidebarMobile />
     </header>
   );
 }
