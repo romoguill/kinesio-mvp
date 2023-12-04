@@ -1,9 +1,11 @@
-import { Pill, Book, UserSquare, LucideIcon } from 'lucide-react';
+import { Pill, Book, UserSquare, LucideIcon, ShieldAlert } from 'lucide-react';
+import { Role } from './types';
 
 export type SidebarOption = {
   option: string;
   path: string;
   icon: LucideIcon;
+  roles?: Role[];
 };
 
 export const SIDEBAR_OPTIONS: SidebarOption[] = [
@@ -21,5 +23,11 @@ export const SIDEBAR_OPTIONS: SidebarOption[] = [
     option: 'Account',
     path: '/account',
     icon: UserSquare,
+  },
+  {
+    option: 'Admin',
+    path: '/admin',
+    icon: ShieldAlert,
+    roles: ['admin'],
   },
 ];

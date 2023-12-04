@@ -185,7 +185,7 @@ export interface Database {
           full_name: string | null
           id: string
           payment_method: Json | null
-          role: Database["public"]["Enums"]["role"]
+          role: Database["public"]["Enums"]["role"] | null
         }
         Insert: {
           avatar_url?: string | null
@@ -193,7 +193,7 @@ export interface Database {
           full_name?: string | null
           id: string
           payment_method?: Json | null
-          role?: Database["public"]["Enums"]["role"]
+          role?: Database["public"]["Enums"]["role"] | null
         }
         Update: {
           avatar_url?: string | null
@@ -201,7 +201,7 @@ export interface Database {
           full_name?: string | null
           id?: string
           payment_method?: Json | null
-          role?: Database["public"]["Enums"]["role"]
+          role?: Database["public"]["Enums"]["role"] | null
         }
         Relationships: [
           {

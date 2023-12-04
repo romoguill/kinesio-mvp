@@ -17,7 +17,7 @@ import { Input } from '../ui/input';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { Database } from '../../lib/database.types';
+import { Database } from '../../lib/supabase/database.types';
 
 const formSchema = z
   .object({

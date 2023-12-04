@@ -13,7 +13,7 @@ import {
 } from '../ui/dropdown-menu';
 import UserAvatar from './UserAvatar';
 import { useEffect, useState } from 'react';
-import { Database } from '@/lib/database.types';
+import { Database } from '@/lib/supabase/database.types';
 
 type Props = {};
 
