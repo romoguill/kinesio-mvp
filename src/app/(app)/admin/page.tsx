@@ -1,4 +1,6 @@
+import { Button } from '@/components/ui/button';
 import { getSession, getUserDetails } from '@/lib/supabase/supabase-server';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 async function AdminPage() {
@@ -10,7 +12,17 @@ async function AdminPage() {
 
   if (role !== 'admin') redirect('/forbidden');
 
-  return <div>AdminPage</div>;
+  return (
+    <section>
+      <h2>Excercise Wiki</h2>
+      <div className='flex gap-4'>
+        <Button asChild>
+          <Link href='/admin/wiki/create'>Add new</Link>
+        </Button>
+        <Button>Modify/Delete</Button>
+      </div>
+    </section>
+  );
 }
 
 export default AdminPage;

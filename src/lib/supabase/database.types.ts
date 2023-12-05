@@ -32,6 +32,39 @@ export interface Database {
           }
         ]
       }
+      excercises: {
+        Row: {
+          created_at: string
+          id: string
+          instructions: string
+          modified_at: string
+          name: string
+          tags: string[]
+          thumbnail_url: string
+          video_url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          instructions: string
+          modified_at?: string
+          name: string
+          tags: string[]
+          thumbnail_url: string
+          video_url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          instructions?: string
+          modified_at?: string
+          name?: string
+          tags?: string[]
+          thumbnail_url?: string
+          video_url?: string
+        }
+        Relationships: []
+      }
       prices: {
         Row: {
           active: boolean | null
