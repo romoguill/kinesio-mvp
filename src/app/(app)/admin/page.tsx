@@ -1,7 +1,11 @@
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import SearchInput from '@/components/utils/SearchInput';
+import useDebounce from '@/hooks/useDebounce';
 import { getSession, getUserDetails } from '@/lib/supabase/supabase-server';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { useState } from 'react';
 
 async function AdminPage() {
   const user = await getUserDetails();
@@ -19,7 +23,9 @@ async function AdminPage() {
         <Button asChild>
           <Link href='/admin/wiki/create'>Add new</Link>
         </Button>
-        <Button>Modify/Delete</Button>
+        <Button asChild>
+          <Link href='/admin/wiki/edit'>Modify/Delete</Link>
+        </Button>
       </div>
     </section>
   );
