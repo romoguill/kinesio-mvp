@@ -15,6 +15,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { ExerciseTags } from '@/utils/types';
+import { Checkbox } from '@/components/ui/checkbox';
+import { cn } from '@/lib/utils';
 
 type InsertExcerciseSchema =
   Database['public']['Tables']['excercises']['Insert'];
@@ -119,16 +122,54 @@ function ExcerciseForm() {
         <FormField
           control={form.control}
           name='tags'
-          render={({ field }) => (
+          render={() => (
             <FormItem>
-              <FormLabel>Tags</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder='Tags'
-                  {...field}
-                  className='bg-neutral-500/40'
-                />
-              </FormControl>
+              <FormLabel>
+                Tags
+                <span className='font-light text-sm inline-block pl-2'>
+                  (0 selected)
+                </span>
+              </FormLabel>
+              <div className='grid grid-cols-2 md:grid-cols-3 gap-y-2'>
+                {Object.values(ExerciseTags)
+                  .sort((a, b) => a.localeCompare(b))
+                  .map((tag) => (
+                    <FormField
+                      key={tag}
+                      control={form.control}
+                      name='tags'
+                      render={({ field }) => (
+                        <FormItem key={tag}>
+                          <FormControl>
+                            <Checkbox
+                              hidden
+                              checked={field.value?.includes(tag)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, tag])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== tag
+                                      )
+                                    );
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel
+                            className={cn(
+                              {
+                                'bg-orange-700/50': field.value.includes(tag),
+                              },
+                              'px-2 py-1 text-sm hover:bg-orange-700/80 cursor-pointer rounded-xl w-full'
+                            )}
+                          >
+                            {tag}
+                          </FormLabel>
+                        </FormItem>
+                      )}
+                    />
+                  ))}
+              </div>
               <FormMessage />
             </FormItem>
           )}
