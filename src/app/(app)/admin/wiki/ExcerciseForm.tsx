@@ -18,12 +18,16 @@ import { Button } from '@/components/ui/button';
 import { ExerciseTags } from '@/utils/types';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
+import toast from 'react-hot-toast';
+import Spinner from '@/components/utils/Spinner';
 
-type InsertExcerciseSchema =
-  Database['public']['Tables']['excercises']['Insert'];
+type InsertExcerciseSchema = Omit<
+  Database['public']['Tables']['excercises']['Insert'],
+  'created_at' | 'modified_at' | 'id'
+>;
 
 function ExcerciseForm() {
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
   const router = useRouter();
 
   const form = useForm<InsertExcerciseSchema>({
@@ -33,12 +37,23 @@ function ExcerciseForm() {
       thumbnail_url: '',
       video_url: '',
       tags: [],
-      created_at: '',
-      modified_at: '',
     },
   });
 
-  const onSubmit: SubmitHandler<InsertExcerciseSchema> = async (data) => {};
+  const onSubmit: SubmitHandler<InsertExcerciseSchema> = async (data) => {
+    try {
+      const { error } = await supabase.from('excercises').insert(data);
+
+      if (error) {
+        throw new Error(`Supabase error: ${error.code}`);
+      }
+
+      toast.success('New excercise added');
+      form.reset();
+    } catch (error) {
+      toast.error('Ups, there was an error. Try again later');
+    }
+  };
 
   return (
     <Form {...form}>
@@ -122,12 +137,12 @@ function ExcerciseForm() {
         <FormField
           control={form.control}
           name='tags'
-          render={() => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>
                 Tags
                 <span className='font-light text-sm inline-block pl-2'>
-                  (0 selected)
+                  ({field.value.length} selected)
                 </span>
               </FormLabel>
               <div className='grid grid-cols-2 md:grid-cols-3 gap-y-2'>
@@ -160,7 +175,7 @@ function ExcerciseForm() {
                               {
                                 'bg-orange-700/50': field.value.includes(tag),
                               },
-                              'px-2 py-1 text-sm hover:bg-orange-700/80 cursor-pointer rounded-xl w-full'
+                              'px-2 py-1 text-xs hover:bg-orange-700/80 cursor-pointer rounded-xl w-full'
                             )}
                           >
                             {tag}
@@ -175,7 +190,17 @@ function ExcerciseForm() {
           )}
         />
 
-        <Button type='submit'>Add Excercise</Button>
+        <Button
+          type='submit'
+          className='w-2/5 mx-auto mt-4'
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? (
+            <Spinner className='text-primary-foreground h-6 w-6 border-2' />
+          ) : (
+            'Add Excercise'
+          )}
+        </Button>
       </form>
     </Form>
   );
