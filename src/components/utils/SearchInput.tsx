@@ -1,10 +1,9 @@
 'use client';
 
-import { Search } from 'lucide-react';
-import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
-import useDebounce from '@/hooks/useDebounce';
-import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { Search } from 'lucide-react';
+import { Dispatch, SetStateAction } from 'react';
+import { Input } from '../ui/input';
 
 interface SearchInput {
   className?: string;
@@ -13,8 +12,6 @@ interface SearchInput {
 }
 
 function SearchInput({ className, value, setValue }: SearchInput) {
-  const debouncedValue = useDebounce<string>(value);
-
   return (
     <div className='relative'>
       <Search

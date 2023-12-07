@@ -251,7 +251,21 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      search_excercises: {
+        Args: {
+          search: string
+        }
+        Returns: {
+          created_at: string
+          id: string
+          instructions: string
+          modified_at: string
+          name: string
+          tags: string[]
+          thumbnail_url: string
+          video_url: string
+        }[]
+      }
     }
     Enums: {
       pricing_plan_interval: "day" | "week" | "month" | "year"
