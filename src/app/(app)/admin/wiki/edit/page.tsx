@@ -43,6 +43,7 @@ function EditPage() {
     if (!debouncedSearchValue) {
       return setExcercises([]);
     }
+
     getExcercises();
   }, [supabase, debouncedSearchValue]);
 

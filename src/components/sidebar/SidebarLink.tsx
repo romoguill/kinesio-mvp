@@ -12,7 +12,7 @@ function SidebarLink({ link, mobile = false }: SidebarLinkProps) {
     <Link
       href={link.path}
       className={cn(
-        'flex gap-4 items-center p-2 rounded-lg text-foreground hover:bg-neutral-100/10 mr-2'
+        'flex gap-4 items-center p-2 rounded-lg text-foreground hover:bg-neutral-100/10'
       )}
     >
       {<link.icon />}
