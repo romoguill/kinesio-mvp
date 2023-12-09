@@ -69,11 +69,7 @@ function ExcerciseForm() {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input
-                  placeholder='Name'
-                  {...field}
-                  className='bg-neutral-500/40'
-                />
+                <Input placeholder='Name' {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -87,11 +83,7 @@ function ExcerciseForm() {
             <FormItem>
               <FormLabel>Instructions</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder='Instructions'
-                  {...field}
-                  className='bg-neutral-500/40'
-                />
+                <Textarea placeholder='Instructions' {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -105,11 +97,7 @@ function ExcerciseForm() {
             <FormItem>
               <FormLabel>Thumbnail Url</FormLabel>
               <FormControl>
-                <Input
-                  placeholder='Thumbnail Url'
-                  {...field}
-                  className='bg-neutral-500/40'
-                />
+                <Input placeholder='Thumbnail Url' {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -123,11 +111,7 @@ function ExcerciseForm() {
             <FormItem>
               <FormLabel>Video Url</FormLabel>
               <FormControl>
-                <Input
-                  placeholder='Video Url'
-                  {...field}
-                  className='bg-neutral-500/40'
-                />
+                <Input placeholder='Video Url' {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

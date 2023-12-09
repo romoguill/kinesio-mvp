@@ -21,7 +21,7 @@ function SessionManagement() {
   return (
     <div className='flex flex-col gap-2 bg-neutral-600/10 py-2 px-4 rounded-xl hover:bg-neutral-600/20'>
       <div className='flex justify-between items-center'>
-        <p className='text-sm'>User</p>
+        <p className='text-sm text-neutral-400/80'>User</p>
         <Button
           variant={'ghost'}
           className='bg-red-600/30 p-2 h-fit'
