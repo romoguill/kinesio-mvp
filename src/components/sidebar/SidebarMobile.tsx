@@ -16,10 +16,10 @@ interface SidebarMobileProps {
 function SidebarMobile() {
   return (
     <Sheet>
-      <SheetTrigger className='md:hidden'>
+      <SheetTrigger className='lg:hidden'>
         <Menu />
       </SheetTrigger>
-      <SheetContent className='md:hidden' side={'top'}>
+      <SheetContent className='lg:hidden' side={'top'}>
         <SheetHeader>
           <SheetTitle>CareBear</SheetTitle>
           <SidebarLinkGroup mobile />

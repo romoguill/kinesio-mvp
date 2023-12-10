@@ -1,12 +1,12 @@
 'use client';
 
-import SearchInput from '@/components/utils/SearchInput';
-import ExcerciseForm from '../ExcerciseForm';
-import { useEffect, useState } from 'react';
-import useDebounce from '@/hooks/useDebounce';
+import AdminExcerciseCard from '@/components/cards/AdminExcerciseCard';
 import { Label } from '@/components/ui/label';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import SearchInput from '@/components/utils/SearchInput';
+import useDebounce from '@/hooks/useDebounce';
 import { Database } from '@/lib/supabase/database.types';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useEffect, useState } from 'react';
 
 function EditPage() {
   const [searchedValue, setSearchedValue] = useState('');
@@ -58,9 +58,11 @@ function EditPage() {
         className='mt-2'
       />
 
-      {excercises?.map((excercise) => (
-        <div key={excercise.id}>{excercise.name}</div>
-      ))}
+      <div className='flex flex-col gap-6 mt-10'>
+        {excercises?.map((excercise) => (
+          <AdminExcerciseCard key={excercise.id} {...excercise} />
+        ))}
+      </div>
     </section>
   );
 }

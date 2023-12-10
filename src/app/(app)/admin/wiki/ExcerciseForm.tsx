@@ -20,6 +20,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import toast from 'react-hot-toast';
 import Spinner from '@/components/utils/Spinner';
+import { nanoid } from 'nanoid';
 
 type InsertExcerciseSchema = Omit<
   Database['public']['Tables']['excercises']['Insert'],
@@ -29,6 +30,8 @@ type InsertExcerciseSchema = Omit<
 function ExcerciseForm() {
   const supabase = createClientComponentClient<Database>();
   const router = useRouter();
+
+  console.log(nanoid(8));
 
   const form = useForm<InsertExcerciseSchema>({
     defaultValues: {
@@ -41,8 +44,11 @@ function ExcerciseForm() {
   });
 
   const onSubmit: SubmitHandler<InsertExcerciseSchema> = async (data) => {
+    const id = nanoid(8);
     try {
-      const { error } = await supabase.from('excercises').insert(data);
+      const { error } = await supabase
+        .from('excercises')
+        .insert({ ...data, id });
 
       if (error) {
         throw new Error(`Supabase error: ${error.code}`);
