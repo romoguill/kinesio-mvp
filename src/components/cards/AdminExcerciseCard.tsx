@@ -3,6 +3,10 @@
 import { Database } from '@/lib/supabase/database.types';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import Image from 'next/image';
+import { FileEdit, MoreVertical, Trash2 } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { Button } from '../ui/button';
+import Link from 'next/link';
 
 type AdminExcerciseCardProps =
   Database['public']['Functions']['search_excercises']['Returns'][number];
@@ -31,20 +35,53 @@ function AdminExcerciseCard({
           className='object-cover w-full h-40 rounded-lg row-span-2 col-span-1 md:row-span-1'
           onError={console.log}
         />
-        <div className='justify-self-start p-3 '>
+        <div className='justify-self-start p-1 md:p-3 '>
           <CardTitle className='text-lg leading-6 md:text-2xl'>
             {name}
           </CardTitle>
           <p className='text-xs md:text-sm'>{id}</p>
         </div>
 
-        <div className='text-xs md:text-sm justify-self-start md:justify-self-center px-3'>
+        <div className='text-xs md:text-sm justify-self-start md:justify-self-center px-1 md:px-3'>
           <p>last modified</p>
           <p>{parseDateModified(modified_at).date}</p>
-          {}
           <p>{parseDateModified(modified_at).time}</p>
         </div>
       </div>
+
+      <Popover>
+        <PopoverTrigger
+          asChild
+          className='absolute right-3 top-3 cursor-pointer'
+        >
+          <Button
+            variant={'ghost'}
+            size={'icon'}
+            className='hover:bg-inherit hover:text-accent'
+          >
+            <MoreVertical />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent align='end' className='flex flex-col w-32 p-0'>
+          <Button
+            asChild
+            variant={'ghost'}
+            className='justify-start hover:bg-blue-600/30'
+          >
+            <Link href={`/admin/wiki/edit/${id}`}>
+              <FileEdit />
+              <p>Edit</p>
+            </Link>
+          </Button>
+          <Button
+            variant={'ghost'}
+            className='justify-start hover:bg-red-600/30'
+          >
+            <Trash2 />
+            <p>Delete</p>
+          </Button>
+        </PopoverContent>
+      </Popover>
     </Card>
   );
 }
