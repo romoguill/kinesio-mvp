@@ -1,7 +1,8 @@
 import { Button } from '@/components/ui/button';
+import PageContainer from '@/components/utils/PageContainer';
 
 function DashboardPage() {
-  return <section>Dashboard page</section>;
+  return <PageContainer>Dashboard</PageContainer>;
 }
 
 export default DashboardPage;

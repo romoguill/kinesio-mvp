@@ -2,6 +2,7 @@
 
 import AdminExcerciseCard from '@/components/cards/AdminExcerciseCard';
 import { Label } from '@/components/ui/label';
+import PageContainer from '@/components/utils/PageContainer';
 import SearchInput from '@/components/utils/SearchInput';
 import useDebounce from '@/hooks/useDebounce';
 import { Database } from '@/lib/supabase/database.types';
@@ -48,7 +49,7 @@ function EditPage() {
   }, [supabase, debouncedSearchValue]);
 
   return (
-    <section className='px-6 w-full max-w-5xl'>
+    <PageContainer>
       <Label className='text-muted-foreground'>
         Search excercise by id/tag/name
       </Label>
@@ -63,7 +64,7 @@ function EditPage() {
           <AdminExcerciseCard key={excercise.id} {...excercise} />
         ))}
       </div>
-    </section>
+    </PageContainer>
   );
 }
 

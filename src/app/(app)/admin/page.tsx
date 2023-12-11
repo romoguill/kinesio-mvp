@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import PageContainer from '@/components/utils/PageContainer';
 import SearchInput from '@/components/utils/SearchInput';
 import useDebounce from '@/hooks/useDebounce';
 import { getSession, getUserDetails } from '@/lib/supabase/supabase-server';
@@ -17,7 +18,7 @@ async function AdminPage() {
   if (role !== 'admin') redirect('/forbidden');
 
   return (
-    <section>
+    <PageContainer>
       <h2>Excercise Wiki</h2>
       <div className='flex gap-4'>
         <Button asChild>
@@ -27,7 +28,7 @@ async function AdminPage() {
           <Link href='/admin/wiki/edit'>Modify/Delete</Link>
         </Button>
       </div>
-    </section>
+    </PageContainer>
   );
 }
 

@@ -1,10 +1,11 @@
+import PageContainer from '@/components/utils/PageContainer';
 import ExcerciseForm from '../ExcerciseForm';
 
 function CreatePage() {
   return (
-    <section className='px-6 w-full max-w-5xl'>
+    <PageContainer>
       <ExcerciseForm />
-    </section>
+    </PageContainer>
   );
 }
 
