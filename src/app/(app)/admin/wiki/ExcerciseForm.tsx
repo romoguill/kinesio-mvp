@@ -21,48 +21,59 @@ import { cn } from '@/lib/utils';
 import toast from 'react-hot-toast';
 import Spinner from '@/components/utils/Spinner';
 import { nanoid } from 'nanoid';
+import { createExcercise, updateExcercise } from '@/lib/supabase/queries';
 
-type InsertExcerciseSchema = Omit<
+export type InsertExcerciseSchema = Omit<
   Database['public']['Tables']['excercises']['Insert'],
   'created_at' | 'modified_at' | 'id'
 >;
 
 interface ExcerciseFormProps {
-  values?: InsertExcerciseSchema;
+  excercise?: InsertExcerciseSchema & { id: string };
 }
 
-function ExcerciseForm({ values }: ExcerciseFormProps) {
+function ExcerciseForm({ excercise }: ExcerciseFormProps) {
   const supabase = createClientComponentClient<Database>();
   const router = useRouter();
 
-  console.log(nanoid(8));
+  let id: string | undefined = undefined;
+  let defaultValues: InsertExcerciseSchema | undefined = undefined;
+
+  if (excercise) {
+    const { id: idExcercise, ...rest } = excercise;
+    id = idExcercise;
+    defaultValues = rest;
+  }
 
   const form = useForm<InsertExcerciseSchema>({
-    defaultValues: {
+    defaultValues: defaultValues ?? {
       name: '',
       instructions: '',
       thumbnail_url: '',
       video_url: '',
       tags: [],
     },
-    values,
   });
 
-  const onSubmit: SubmitHandler<InsertExcerciseSchema> = async (data) => {
-    const id = nanoid(8);
-    try {
-      const { error } = await supabase
-        .from('excercises')
-        .insert({ ...data, id });
+  const onSubmit: SubmitHandler<InsertExcerciseSchema> = async (formData) => {
+    if (defaultValues && id) {
+      const { data, error } = await updateExcercise(id, formData);
 
       if (error) {
-        throw new Error(`Supabase error: ${error.code}`);
+        return toast.error("Couldn't update the excercise");
       }
 
-      toast.success('New excercise added');
+      toast.success('Excercise modified');
+      router.push('/admin/wiki/edit');
+    } else {
+      const { data, error } = await createExcercise(formData);
+
+      if (error) {
+        return toast.error("Couldn't create the excercise");
+      }
+
+      toast.success('Excercise created');
       form.reset();
-    } catch (error) {
-      toast.error('Ups, there was an error. Try again later');
     }
   };
 
@@ -187,11 +198,13 @@ function ExcerciseForm({ values }: ExcerciseFormProps) {
 
         <Button
           type='submit'
-          className='w-2/5 mx-auto mt-4'
+          className='w-full mx-auto mt-8'
           disabled={form.formState.isSubmitting}
         >
           {form.formState.isSubmitting ? (
             <Spinner className='text-primary-foreground h-6 w-6 border-2' />
+          ) : defaultValues ? (
+            'Edit Excercise'
           ) : (
             'Add Excercise'
           )}

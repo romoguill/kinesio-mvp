@@ -1,6 +1,8 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from './database.types';
 import { notFound } from 'next/navigation';
+import { InsertExcerciseSchema } from '@/app/(app)/admin/wiki/ExcerciseForm';
+import { nanoid } from 'nanoid/non-secure';
 
 const supabase = createClientComponentClient<Database>();
 
@@ -18,4 +20,50 @@ export const getExcerciseById = async (id: string) => {
   }
 
   return data[0];
+};
+
+export const createExcercise = async (excercise: InsertExcerciseSchema) => {
+  const id = nanoid(8);
+
+  const { data, error } = await supabase
+    .from('excercises')
+    .insert({ ...excercise, id })
+    .select()
+    .single();
+
+  if (error) {
+    return {
+      error: `Supabase Error: ${error.code}`,
+      data: null,
+    };
+  }
+
+  return {
+    error: null,
+    data,
+  };
+};
+
+export const updateExcercise = async (
+  id: string,
+  excercise: Partial<InsertExcerciseSchema>
+) => {
+  const { data, error } = await supabase
+    .from('excercises')
+    .update({ ...excercise })
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) {
+    return {
+      error: `Supabase Error: ${error.code}`,
+      data: null,
+    };
+  }
+
+  return {
+    error: null,
+    data,
+  };
 };

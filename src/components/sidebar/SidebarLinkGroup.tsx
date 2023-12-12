@@ -14,7 +14,6 @@ interface SidebarLinkGroupProps {
 
 function SidebarLinkGroup({ setOpen, mobile = false }: SidebarLinkGroupProps) {
   const auth = useAuth();
-  console.log(auth);
 
   // Some links like "admin" will be hidden based on public.users.role
   const filterRoles = (link: SidebarOption) => {

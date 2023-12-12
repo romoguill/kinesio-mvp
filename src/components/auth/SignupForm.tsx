@@ -65,8 +65,6 @@ function SignupForm() {
         },
       });
 
-      console.log(response);
-
       toast.success('Check your email to confirm account', {
         duration: 3000,
       });

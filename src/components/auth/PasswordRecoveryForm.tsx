@@ -46,7 +46,7 @@ function PasswordRecoveryForm() {
 
       console.log(response);
     } catch (error) {
-      console.log('errorrr', error);
+      console.log('error', error);
     }
 
     toast.success('Please check your email to reset password', {
