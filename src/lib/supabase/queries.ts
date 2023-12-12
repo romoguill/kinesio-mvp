@@ -13,6 +13,7 @@ export const getExcerciseById = async (id: string) => {
   if (error) throw new Error('Supabase Error', { cause: error.code });
 
   if (data.length === 0) {
+    console.log('not found');
     return notFound();
   }
 
