@@ -1,14 +1,12 @@
 'use client';
 
-import { SIDEBAR_OPTIONS, SidebarOption } from '@/utils/constants';
-import SidebarLink from './SidebarLink';
-import { getUserDetails } from '@/lib/supabase/supabase-server';
-import { Role } from '@/utils/types';
-import { Dispatch, SetStateAction } from 'react';
 import useAuth from '@/hooks/useAuth';
+import { SIDEBAR_OPTIONS, SidebarOption } from '@/utils/constants';
+import { Dispatch, SetStateAction } from 'react';
+import SidebarLink from './SidebarLink';
 
 interface SidebarLinkGroupProps {
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpen?: Dispatch<SetStateAction<boolean>>;
   mobile?: boolean;
 }
 
@@ -22,6 +20,8 @@ function SidebarLinkGroup({ setOpen, mobile = false }: SidebarLinkGroupProps) {
 
     return link.roles.includes(auth.user.details.role);
   };
+
+  console.log(auth);
 
   return (
     <ul className='flex flex-col gap-4'>

@@ -7,7 +7,7 @@ import { Dispatch, SetStateAction } from 'react';
 
 interface SidebarLinkProps {
   link: SidebarOption;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpen?: Dispatch<SetStateAction<boolean>>;
   mobile?: boolean;
 }
 
@@ -18,7 +18,9 @@ function SidebarLink({ link, setOpen, mobile = false }: SidebarLinkProps) {
       className={cn(
         'flex gap-4 items-center p-2 rounded-lg text-foreground hover:bg-neutral-100/10'
       )}
-      onClick={() => setOpen(false)}
+      onClick={() => {
+        setOpen && setOpen(false);
+      }}
     >
       {<link.icon />}
       <p

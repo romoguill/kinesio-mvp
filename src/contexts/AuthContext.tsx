@@ -22,9 +22,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<ExtendedUser | null>(null);
   const [session, setSession] = useState<Session | null>(null);
 
-  const supabase = createClientComponentClient<Database>();
-
   useEffect(() => {
+    console.log('auth rendered');
+    const supabase = createClientComponentClient<Database>();
+
     supabase.auth
       .getSession()
       .then((response) => setSession(response.data.session));
@@ -48,7 +49,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     );
 
     return () => authListener.subscription.unsubscribe();
-  }, [supabase]);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, session }}>
