@@ -12,7 +12,7 @@ import {
 import SidebarLinkGroup from './SidebarLinkGroup';
 
 interface SidebarMobileProps {
-  className: string;
+  className?: string;
 }
 
 function SidebarMobile({ className }: SidebarMobileProps) {

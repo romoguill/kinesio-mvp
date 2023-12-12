@@ -62,20 +62,23 @@ function AdminExcerciseCard({
             <MoreVertical />
           </Button>
         </PopoverTrigger>
-        <PopoverContent align='end' className='flex flex-col w-32 p-0'>
+        <PopoverContent
+          align='end'
+          className='flex flex-col w-32 p-0 bg-slate-700'
+        >
           <Button
             asChild
             variant={'ghost'}
             className='justify-start hover:bg-blue-600/30'
           >
-            <Link href={`/admin/wiki/edit/${id}`}>
+            <Link href={`/admin/wiki/edit/${id}`} className='flex gap-2'>
               <FileEdit />
               <p>Edit</p>
             </Link>
           </Button>
           <Button
             variant={'ghost'}
-            className='justify-start hover:bg-red-600/30'
+            className='flex gap-2 justify-start hover:bg-red-600/30'
           >
             <Trash2 />
             <p>Delete</p>

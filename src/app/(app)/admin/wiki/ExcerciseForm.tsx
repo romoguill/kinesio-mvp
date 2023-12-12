@@ -1,6 +1,6 @@
 'use client';
 
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Database } from '@/lib/supabase/database.types';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
@@ -27,7 +27,11 @@ type InsertExcerciseSchema = Omit<
   'created_at' | 'modified_at' | 'id'
 >;
 
-function ExcerciseForm() {
+interface ExcerciseFormProps {
+  values?: InsertExcerciseSchema;
+}
+
+function ExcerciseForm({ values }: ExcerciseFormProps) {
   const supabase = createClientComponentClient<Database>();
   const router = useRouter();
 
@@ -41,6 +45,7 @@ function ExcerciseForm() {
       video_url: '',
       tags: [],
     },
+    values,
   });
 
   const onSubmit: SubmitHandler<InsertExcerciseSchema> = async (data) => {
