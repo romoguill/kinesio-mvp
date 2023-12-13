@@ -2,11 +2,12 @@
 
 import { Database } from '@/lib/supabase/database.types';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import Image from 'next/image';
+import Image, { ImageLoader, ImageLoaderProps } from 'next/image';
 import { FileEdit, MoreVertical, Trash2 } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 type AdminExcerciseCardProps =
   Database['public']['Functions']['search_excercises']['Returns'][number];
@@ -18,6 +19,18 @@ function AdminExcerciseCard({
   thumbnail_url,
   modified_at,
 }: AdminExcerciseCardProps) {
+  const [imgError, setImgError] = useState(false);
+
+  // Nextjs throws an error if can't parse src to http:// or https://. TODO: Find better solution than this
+  const imageLoader: ImageLoader = ({ src }) => {
+    if (!src.startsWith('http://') && !src.startsWith('https://')) {
+      setImgError(true);
+      return '/image-placeholder.jpeg';
+    }
+
+    return src;
+  };
+
   const parseDateModified = (dateDB: string) => {
     return {
       date: dateDB.split('T')[0],
@@ -32,8 +45,10 @@ function AdminExcerciseCard({
           alt={`Thumbnail of excercise ${id}`}
           width={160}
           height={160}
-          className='object-cover w-full h-40 rounded-lg row-span-2 col-span-1 md:row-span-1'
-          onError={console.log}
+          className={`object-cover w-full h-40 rounded-lg row-span-2 col-span-1 md:row-span-1 ${
+            imgError ? 'brightness-[0.25]' : ''
+          }`}
+          loader={imageLoader}
         />
         <div className='justify-self-start p-1 md:p-3 '>
           <CardTitle className='text-lg leading-6 md:text-2xl'>

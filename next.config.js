@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'hips.hearstapps.com',
       },
+      {
+        protocol: 'http',
+        hostname: 'asdicmeic.com',
+      },
     ],
   },
 };

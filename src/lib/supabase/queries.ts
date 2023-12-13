@@ -28,8 +28,7 @@ export const createExcercise = async (excercise: InsertExcerciseSchema) => {
   const { data, error } = await supabase
     .from('excercises')
     .insert({ ...excercise, id })
-    .select()
-    .single();
+    .select();
 
   if (error) {
     return {
@@ -40,7 +39,7 @@ export const createExcercise = async (excercise: InsertExcerciseSchema) => {
 
   return {
     error: null,
-    data,
+    data: data[0],
   };
 };
 
@@ -48,12 +47,15 @@ export const updateExcercise = async (
   id: string,
   excercise: Partial<InsertExcerciseSchema>
 ) => {
-  const { data, error } = await supabase
+  const response = await supabase
     .from('excercises')
     .update({ ...excercise })
     .eq('id', id)
-    .select()
-    .single();
+    .select();
+
+  console.log(response);
+
+  const { data, error } = response;
 
   if (error) {
     return {
@@ -64,6 +66,6 @@ export const updateExcercise = async (
 
   return {
     error: null,
-    data,
+    data: data[0],
   };
 };

@@ -7,6 +7,7 @@ import SearchInput from '@/components/utils/SearchInput';
 import useDebounce from '@/hooks/useDebounce';
 import { Database } from '@/lib/supabase/database.types';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 function EditPage() {
@@ -16,6 +17,15 @@ function EditPage() {
   >(null);
   const debouncedSearchValue = useDebounce(searchedValue);
   const supabase = createClientComponentClient<Database>();
+  const searchParams = useSearchParams();
+
+  const search = searchParams.get('search');
+
+  useEffect(() => {
+    if (search) {
+      setSearchedValue(search);
+    }
+  }, [search]);
 
   useEffect(() => {
     const getExcercises = async () => {

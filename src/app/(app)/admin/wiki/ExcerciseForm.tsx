@@ -64,7 +64,7 @@ function ExcerciseForm({ excercise }: ExcerciseFormProps) {
       }
 
       toast.success('Excercise modified');
-      router.push('/admin/wiki/edit');
+      router.push(`/admin/wiki/edit?search=${id}`);
     } else {
       const { data, error } = await createExcercise(formData);
 
