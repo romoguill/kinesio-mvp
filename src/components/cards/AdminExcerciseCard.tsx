@@ -8,9 +8,12 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { deleteExcercise } from '@/lib/supabase/queries';
 
 type AdminExcerciseCardProps =
-  Database['public']['Functions']['search_excercises']['Returns'][number];
+  Database['public']['Functions']['search_excercises']['Returns'][number] & {
+    handleDelete: (id: string) => Promise<void>;
+  };
 
 function AdminExcerciseCard({
   id,
@@ -18,6 +21,7 @@ function AdminExcerciseCard({
   tags,
   thumbnail_url,
   modified_at,
+  handleDelete,
 }: AdminExcerciseCardProps) {
   const [imgError, setImgError] = useState(false);
 
@@ -37,6 +41,7 @@ function AdminExcerciseCard({
       time: dateDB.slice(11, 19),
     };
   };
+
   return (
     <Card className='flex relative h-40 border-none'>
       <div className='grid grid-cols-[120px_1fr] xs:grid xs:grid-cols-[160px_1fr] md:grid-cols-[160px_minmax(290px,2fr)_minmax(170px,3fr)] grid-rows-[3fr_2fr] md:grid-rows-none h-full w-full justify-items-center items-center gap-2 xs:gap-4'>
@@ -94,6 +99,7 @@ function AdminExcerciseCard({
           <Button
             variant={'ghost'}
             className='flex gap-2 justify-start hover:bg-red-600/30'
+            onClick={() => handleDelete(id)}
           >
             <Trash2 />
             <p>Delete</p>

@@ -47,15 +47,11 @@ export const updateExcercise = async (
   id: string,
   excercise: Partial<InsertExcerciseSchema>
 ) => {
-  const response = await supabase
+  const { data, error } = await supabase
     .from('excercises')
     .update({ ...excercise })
     .eq('id', id)
     .select();
-
-  console.log(response);
-
-  const { data, error } = response;
 
   if (error) {
     return {
@@ -67,5 +63,23 @@ export const updateExcercise = async (
   return {
     error: null,
     data: data[0],
+  };
+};
+
+export const deleteExcercise = async (id: string) => {
+  const response = await supabase.from('excercises').delete().eq('id', id);
+
+  const { error } = response;
+
+  if (error) {
+    return {
+      error: `Supabase Error: ${error.code}`,
+      data: null,
+    };
+  }
+
+  return {
+    error: null,
+    data: 'ok',
   };
 };

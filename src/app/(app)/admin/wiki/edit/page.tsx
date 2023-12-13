@@ -6,9 +6,11 @@ import PageContainer from '@/components/utils/PageContainer';
 import SearchInput from '@/components/utils/SearchInput';
 import useDebounce from '@/hooks/useDebounce';
 import { Database } from '@/lib/supabase/database.types';
+import { deleteExcercise } from '@/lib/supabase/queries';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 function EditPage() {
   const [searchedValue, setSearchedValue] = useState('');
@@ -58,6 +60,23 @@ function EditPage() {
     getExcercises();
   }, [supabase, debouncedSearchValue]);
 
+  const handleDelete = async (id: string) => {
+    const { error } = await deleteExcercise(id);
+
+    if (error) {
+      toast.error("Couldn't delete excercise. Try again later");
+      return;
+    }
+
+    toast.success('Excercise deleted');
+
+    const a = excercises?.filter((excercise) => excercise.id !== id);
+    setExcercises(
+      (prevState) =>
+        prevState?.filter((excercise) => excercise.id !== id) ?? null
+    );
+  };
+
   return (
     <PageContainer>
       <Label className='text-muted-foreground'>
@@ -71,7 +90,11 @@ function EditPage() {
 
       <div className='flex flex-col gap-6 mt-10'>
         {excercises?.map((excercise) => (
-          <AdminExcerciseCard key={excercise.id} {...excercise} />
+          <AdminExcerciseCard
+            key={excercise.id}
+            {...excercise}
+            handleDelete={handleDelete}
+          />
         ))}
       </div>
     </PageContainer>
