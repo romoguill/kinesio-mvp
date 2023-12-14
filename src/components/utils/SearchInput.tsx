@@ -19,7 +19,7 @@ function SearchInput({ className, value, setValue }: SearchInput) {
         size={20}
       />
       <Input
-        className={cn('pl-12 text-neutral-100', className)}
+        className={cn(className, 'pl-12 text-neutral-100 border-0')}
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />

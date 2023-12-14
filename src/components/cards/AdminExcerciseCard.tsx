@@ -56,7 +56,7 @@ function AdminExcerciseCard({
           loader={imageLoader}
         />
         <div className='justify-self-start p-1 md:p-3 '>
-          <CardTitle className='text-lg leading-6 md:text-2xl'>
+          <CardTitle className='text-lg leading-6 md:text-2xl max-w-[8rem]'>
             {name}
           </CardTitle>
           <p className='text-xs md:text-sm'>{id}</p>
@@ -72,7 +72,7 @@ function AdminExcerciseCard({
       <Popover>
         <PopoverTrigger
           asChild
-          className='absolute right-3 top-3 cursor-pointer'
+          className='absolute right-1 top-[18px] cursor-pointer'
         >
           <Button
             variant={'ghost'}

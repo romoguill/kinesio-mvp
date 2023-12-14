@@ -20,9 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body
-        className={cn(inter.className, 'flex flex-col min-h-screen h-full')}
-      >
+      <body className={cn(inter.className, 'flex flex-col min-h-screen')}>
         <AuthProvider>
           <Header />
           {children}

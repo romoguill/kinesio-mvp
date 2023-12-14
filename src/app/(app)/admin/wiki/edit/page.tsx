@@ -78,7 +78,7 @@ function EditPage() {
   };
 
   return (
-    <PageContainer>
+    <>
       <Label className='text-muted-foreground'>
         Search excercise by id/tag/name
       </Label>
@@ -97,7 +97,7 @@ function EditPage() {
           />
         ))}
       </div>
-    </PageContainer>
+    </>
   );
 }
 

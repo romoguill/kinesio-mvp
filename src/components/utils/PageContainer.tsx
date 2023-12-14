@@ -3,7 +3,9 @@ interface PageContainerProps {
 }
 
 function PageContainer({ children }: PageContainerProps) {
-  return <div className='px-2 md:px-4 w-full max-w-5xl'>{children}</div>;
+  return (
+    <main className='px-4 mt-4 lg:ml-[220px] max-w-5xl mb-8'>{children}</main>
+  );
 }
 
 export default PageContainer;

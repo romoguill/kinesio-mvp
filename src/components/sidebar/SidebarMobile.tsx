@@ -20,10 +20,10 @@ function SidebarMobile({ className }: SidebarMobileProps) {
 
   return (
     <Sheet onOpenChange={setOpen} open={open}>
-      <SheetTrigger className='lg:hidden'>
+      <SheetTrigger className='lg:hidden z-50'>
         <Menu />
       </SheetTrigger>
-      <SheetContent className='lg:hidden' side={'top'}>
+      <SheetContent className='lg:hidden z-50' side={'top'}>
         <SheetHeader>
           <SheetTitle>CareBear</SheetTitle>
           <SidebarLinkGroup mobile setOpen={setOpen} />
