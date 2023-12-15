@@ -18,7 +18,7 @@ async function AdminPage() {
   if (role !== 'admin') redirect('/forbidden');
 
   return (
-    <PageContainer>
+    <>
       <h2>Excercise Wiki</h2>
       <div className='flex gap-4'>
         <Button asChild>
@@ -28,7 +28,7 @@ async function AdminPage() {
           <Link href='/admin/wiki/edit'>Modify/Delete</Link>
         </Button>
       </div>
-    </PageContainer>
+    </>
   );
 }
 

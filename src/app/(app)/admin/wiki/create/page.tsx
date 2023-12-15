@@ -3,9 +3,9 @@ import ExcerciseForm from '../ExcerciseForm';
 
 function CreatePage() {
   return (
-    <PageContainer>
+    <>
       <ExcerciseForm />
-    </PageContainer>
+    </>
   );
 }
 

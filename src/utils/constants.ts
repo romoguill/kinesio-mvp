@@ -1,4 +1,11 @@
-import { Pill, Book, UserSquare, LucideIcon, ShieldAlert } from 'lucide-react';
+import {
+  Pill,
+  Book,
+  UserSquare,
+  LucideIcon,
+  ShieldAlert,
+  PersonStanding,
+} from 'lucide-react';
 import { Role } from './types';
 
 export type SidebarOption = {
@@ -10,14 +17,20 @@ export type SidebarOption = {
 
 export const SIDEBAR_OPTIONS: SidebarOption[] = [
   {
-    option: 'Therapies',
-    path: '/therapies',
-    icon: Pill,
-  },
-  {
     option: 'Excercise Wiki',
     path: '/wiki',
     icon: Book,
+  },
+  {
+    option: 'Patients',
+    path: '/patients',
+    icon: PersonStanding,
+    roles: ['therapist'],
+  },
+  {
+    option: 'Therapies',
+    path: '/therapies',
+    icon: Pill,
   },
   {
     option: 'Account',

@@ -7,9 +7,9 @@ async function EditByIdPage({ params: { id } }: { params: { id: string } }) {
   const { created_at, modified_at, ...data } = excercise;
 
   return (
-    <PageContainer>
+    <>
       <ExcerciseForm excercise={excercise} />
-    </PageContainer>
+    </>
   );
 }
 

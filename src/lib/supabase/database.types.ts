@@ -45,7 +45,7 @@ export interface Database {
         }
         Insert: {
           created_at?: string
-          id?: string
+          id: string
           instructions: string
           modified_at?: string
           name: string
@@ -64,6 +64,35 @@ export interface Database {
           video_url?: string
         }
         Relationships: []
+      }
+      invites: {
+        Row: {
+          created_at: string
+          id: string
+          patient_email: string
+          therapist: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          patient_email: string
+          therapist?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          patient_email?: string
+          therapist?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invites_therapist_fkey"
+            columns: ["therapist"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       prices: {
         Row: {
