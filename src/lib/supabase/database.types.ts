@@ -70,19 +70,19 @@ export interface Database {
           created_at: string
           id: string
           patient_email: string
-          therapist: string | null
+          therapist: string
         }
         Insert: {
           created_at?: string
           id?: string
           patient_email: string
-          therapist?: string | null
+          therapist?: string
         }
         Update: {
           created_at?: string
           id?: string
           patient_email?: string
-          therapist?: string | null
+          therapist?: string
         }
         Relationships: [
           {

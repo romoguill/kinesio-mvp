@@ -6,6 +6,8 @@ import { nanoid } from 'nanoid/non-secure';
 
 const supabase = createClientComponentClient<Database>();
 
+// -------- EXERCISES ------
+
 export const getExcerciseById = async (id: string) => {
   const { data, error } = await supabase
     .from('excercises')
