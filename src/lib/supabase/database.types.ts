@@ -94,6 +94,42 @@ export interface Database {
           }
         ]
       }
+      patients: {
+        Row: {
+          created_at: string
+          id: string
+          patient: string
+          therapist: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          patient: string
+          therapist: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          patient?: string
+          therapist?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patients_patient_fkey"
+            columns: ["patient"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patients_therapist_fkey"
+            columns: ["therapist"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       prices: {
         Row: {
           active: boolean | null

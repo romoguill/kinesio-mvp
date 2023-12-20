@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useState } from 'react';
+import useAuth from '@/hooks/useAuth';
 
 interface PendingInvitationProps {
   pendingDetails: PendingDetails[];
@@ -20,8 +21,11 @@ interface PendingInvitationProps {
 function PendingInvitation({ pendingDetails }: PendingInvitationProps) {
   const supabase = createClientComponentClient<Database>();
   const [pending, setPending] = useState(pendingDetails);
+  const { user } = useAuth();
 
-  const handleDeclineInvitation = async (id: string) => {
+  if (!user) return;
+
+  const deleteInvitation = async (id: string) => {
     const { error } = await supabase.from('invites').delete().eq('id', id);
 
     if (error) return;
@@ -29,8 +33,29 @@ function PendingInvitation({ pendingDetails }: PendingInvitationProps) {
     setPending(pending.filter((invite) => invite.invitationId !== id));
   };
 
+  const handleDeclineInvitation = async (id: string) => {
+    await deleteInvitation(id);
+  };
+
   const handleAcceptInvitation = async (id: string) => {
-    // const { error } = await supabase.from('invites').
+    const therapistId = pending.find(
+      (invite) => invite.invitationId === id
+    )?.therapistId;
+
+    if (!therapistId) return;
+
+    await deleteInvitation(id);
+
+    const { error } = await supabase.from('patients').insert({
+      patient: user?.id,
+      therapist: therapistId,
+    });
+
+    console.log(error);
+
+    if (error) return;
+
+    toast.success('The therapist can now start with your treatment');
   };
 
   if (pending.length === 0) return;
@@ -50,7 +75,12 @@ function PendingInvitation({ pendingDetails }: PendingInvitationProps) {
                   {invite.therapistName} would like to add you as their patient
                 </p>
                 <div className='flex gap-4'>
-                  <Button variant={'default'}>Accept</Button>
+                  <Button
+                    variant={'default'}
+                    onClick={() => handleAcceptInvitation(invite.invitationId)}
+                  >
+                    Accept
+                  </Button>
                   <Button
                     variant={'destructive'}
                     onClick={() => handleDeclineInvitation(invite.invitationId)}
