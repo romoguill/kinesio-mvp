@@ -5,7 +5,13 @@ import { Input } from '@/components/ui/input';
 import { Database } from '@/lib/supabase/database.types';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
-import { Dispatch, FormEventHandler, SetStateAction, useState } from 'react';
+import {
+  Dispatch,
+  FormEvent,
+  FormEventHandler,
+  SetStateAction,
+  useState,
+} from 'react';
 import toast from 'react-hot-toast';
 
 interface InviteFormProps {
@@ -17,7 +23,9 @@ function InviteForm({ setOpen }: InviteFormProps) {
   const router = useRouter();
   const [email, setEmail] = useState('');
 
-  const handleSubmit = async (email: string) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     const { error } = await supabase
       .from('invites')
       .insert({ patient_email: email });
@@ -33,7 +41,7 @@ function InviteForm({ setOpen }: InviteFormProps) {
 
   return (
     <form
-      onSubmit={() => handleSubmit(email)}
+      onSubmit={handleSubmit}
       className='w-full max-w-lg flex flex-col gap-2 mt-5'
     >
       <div className='flex gap-4'>
