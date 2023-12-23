@@ -18,7 +18,9 @@ function InviteModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={'secondary'}>Invite new patient</Button>
+        <Button variant={'secondary'} className='self-end'>
+          Invite new patient
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

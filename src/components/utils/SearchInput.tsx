@@ -9,9 +9,15 @@ interface SearchInput {
   className?: string;
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
+  placeholder?: string;
 }
 
-function SearchInput({ className, value, setValue }: SearchInput) {
+function SearchInput({
+  className,
+  value,
+  setValue,
+  placeholder = '',
+}: SearchInput) {
   return (
     <div className='relative'>
       <Search
@@ -22,6 +28,7 @@ function SearchInput({ className, value, setValue }: SearchInput) {
         className={cn(className, 'pl-12 text-neutral-100 border-0')}
         value={value}
         onChange={(e) => setValue(e.target.value)}
+        placeholder={placeholder}
       />
     </div>
   );
