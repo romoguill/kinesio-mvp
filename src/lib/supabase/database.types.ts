@@ -319,14 +319,25 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      get_patients: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          id: string
-          full_name: string
-          email: string
-        }[]
-      }
+      get_patients:
+        | {
+            Args: Record<PropertyKey, never>
+            Returns: {
+              id: string
+              full_name: string
+              email: string
+            }[]
+          }
+        | {
+            Args: {
+              name?: string
+            }
+            Returns: {
+              id: string
+              full_name: string
+              email: string
+            }[]
+          }
       search_excercises: {
         Args: {
           search: string
