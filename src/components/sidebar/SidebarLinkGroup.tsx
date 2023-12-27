@@ -21,8 +21,6 @@ function SidebarLinkGroup({ setOpen, mobile = false }: SidebarLinkGroupProps) {
     return link.roles.includes(auth.user.details.role);
   };
 
-  console.log(auth);
-
   return (
     <ul className='flex flex-col gap-4'>
       {SIDEBAR_OPTIONS.filter(filterRoles).map((link) => (

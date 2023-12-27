@@ -85,3 +85,19 @@ export const deleteExcercise = async (id: string) => {
     data: 'ok',
   };
 };
+
+export const getPatients = async () => {
+  const { data, error } = await supabase.from('patients').select('*');
+
+  if (error) {
+    return {
+      error: `Supabase Error: ${error.code}`,
+      data: null,
+    };
+  }
+
+  return {
+    error: null,
+    data,
+  };
+};
