@@ -23,9 +23,14 @@ export async function getSession() {
 export async function getUserDetails() {
   const supabase = createServerSupabaseClient();
   try {
+    const session = await getSession();
+
+    if (!session) throw new Error('No session found');
+
     const { data: userDetails } = await supabase
       .from('users')
       .select('*')
+      .eq('id', session.user.id)
       .single();
     return userDetails;
   } catch (error) {

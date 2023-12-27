@@ -5,6 +5,7 @@ import PatientList from './PatientList';
 
 async function PatientPage() {
   const user = await getUserDetails();
+  console.log(user);
 
   if (!user) redirect('/auth/login');
 

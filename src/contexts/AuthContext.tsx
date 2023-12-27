@@ -23,7 +23,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
-    console.log('auth rendered');
     const supabase = createClientComponentClient<Database>();
 
     supabase.auth
@@ -32,7 +31,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     const getUserDetails = async () => {
       const authUser = await supabase.auth.getUser();
-      const additionalData = await supabase.from('users').select('*').single();
+      if (!authUser || !authUser.data?.user?.id) return;
+
+      const additionalData = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', authUser?.data?.user?.id)
+        .single();
 
       if (authUser.data.user && additionalData.data) {
         setUser({ ...authUser.data.user, details: additionalData.data });

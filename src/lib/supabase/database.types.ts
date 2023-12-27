@@ -280,6 +280,7 @@ export interface Database {
         Row: {
           avatar_url: string | null
           billing_address: Json | null
+          email: string | null
           full_name: string | null
           id: string
           payment_method: Json | null
@@ -288,6 +289,7 @@ export interface Database {
         Insert: {
           avatar_url?: string | null
           billing_address?: Json | null
+          email?: string | null
           full_name?: string | null
           id: string
           payment_method?: Json | null
@@ -296,6 +298,7 @@ export interface Database {
         Update: {
           avatar_url?: string | null
           billing_address?: Json | null
+          email?: string | null
           full_name?: string | null
           id?: string
           payment_method?: Json | null
