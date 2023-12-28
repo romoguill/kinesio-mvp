@@ -97,21 +97,27 @@ export interface Database {
       patients: {
         Row: {
           created_at: string
+          diagnosis: string | null
           id: string
           patient: string
           therapist: string
+          treatment: string | null
         }
         Insert: {
           created_at?: string
+          diagnosis?: string | null
           id?: string
           patient: string
           therapist: string
+          treatment?: string | null
         }
         Update: {
           created_at?: string
+          diagnosis?: string | null
           id?: string
           patient?: string
           therapist?: string
+          treatment?: string | null
         }
         Relationships: [
           {
@@ -276,6 +282,69 @@ export interface Database {
           }
         ]
       }
+      treatment_excercise: {
+        Row: {
+          duration: number | null
+          excercise: string
+          id: string
+          reps: number | null
+          sets: number | null
+          treatment: string
+          weight: number | null
+        }
+        Insert: {
+          duration?: number | null
+          excercise: string
+          id?: string
+          reps?: number | null
+          sets?: number | null
+          treatment: string
+          weight?: number | null
+        }
+        Update: {
+          duration?: number | null
+          excercise?: string
+          id?: string
+          reps?: number | null
+          sets?: number | null
+          treatment?: string
+          weight?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "treatment_excercise_excercise_fkey"
+            columns: ["excercise"]
+            isOneToOne: false
+            referencedRelation: "excercises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "treatment_excercise_treatment_fkey"
+            columns: ["treatment"]
+            isOneToOne: false
+            referencedRelation: "treatments"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      treatments: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
       users: {
         Row: {
           avatar_url: string | null
@@ -319,25 +388,19 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      get_patients:
-        | {
-            Args: Record<PropertyKey, never>
-            Returns: {
-              id: string
-              full_name: string
-              email: string
-            }[]
-          }
-        | {
-            Args: {
-              name?: string
-            }
-            Returns: {
-              id: string
-              full_name: string
-              email: string
-            }[]
-          }
+      get_patients: {
+        Args: {
+          name?: string
+          patientid?: string
+        }
+        Returns: {
+          id: string
+          full_name: string
+          email: string
+          diagnosis: string
+          treatment: string
+        }[]
+      }
       search_excercises: {
         Args: {
           search: string

@@ -77,7 +77,7 @@ function PatientList() {
       />
       <Table className='mt-4'>
         <TableHeader>
-          <TableRow>
+          <TableRow className='hover:bg-inherit'>
             <TableHead className='w-[200px]'>Name</TableHead>
             <TableHead>Email</TableHead>
           </TableRow>
