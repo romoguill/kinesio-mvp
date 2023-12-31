@@ -29,7 +29,7 @@ function PatientProfile() {
       <h2 className='mt-3'>{patient?.email}</h2>
 
       {/* <PatientForm /> */}
-      <DiagnosisForm />
+      <DiagnosisForm patient={patient} />
     </section>
   );
 }

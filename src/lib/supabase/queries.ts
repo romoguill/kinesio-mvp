@@ -101,3 +101,42 @@ export const getPatients = async () => {
     data,
   };
 };
+
+export const getPatient = async (id: string) => {
+  const { data, error } = await supabase
+    .from('patients')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    return {
+      error: `Supabase Error: ${error.code}`,
+      data: null,
+    };
+  }
+
+  return {
+    error: null,
+    data,
+  };
+};
+
+export const updatePatient = async (
+  id: string,
+  values: Database['public']['Tables']['patients']['Update']
+) => {
+  const { error } = await supabase.from('patients').update(values).eq('id', id);
+
+  if (error) {
+    return {
+      error: `Supabase Error: ${error.code}`,
+      data: null,
+    };
+  }
+
+  return {
+    error: null,
+    data: 'ok',
+  };
+};

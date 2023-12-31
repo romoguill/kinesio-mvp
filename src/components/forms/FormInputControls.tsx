@@ -5,9 +5,16 @@ import { Dispatch, SetStateAction } from 'react';
 interface FormInputControlsProps {
   editMode: boolean;
   setEditMode: Dispatch<SetStateAction<boolean>>;
+  onConfirm: () => void;
+  onDiscard: () => void;
 }
 
-function FormInputControls({ editMode, setEditMode }: FormInputControlsProps) {
+function FormInputControls({
+  editMode,
+  setEditMode,
+  onConfirm,
+  onDiscard,
+}: FormInputControlsProps) {
   return (
     <div className='flex gap-4'>
       {!editMode ? (
@@ -22,18 +29,18 @@ function FormInputControls({ editMode, setEditMode }: FormInputControlsProps) {
         <>
           <Button
             variant={'secondary'}
-            className='p-1 px-2  h-7 flex gap-2'
-            onClick={() => setEditMode(false)}
+            className='p-1 px-2  h-7 flex gap-2 text-xs'
+            onClick={onConfirm}
           >
-            <Check />
+            <Check size={18} />
             Save
           </Button>
           <Button
             variant={'destructive'}
-            className='p-1 px-2 e h-7 flex gap-2'
-            onClick={() => setEditMode(false)}
+            className='p-1 px-2 e h-7 flex gap-2 text-xs'
+            onClick={onDiscard}
           >
-            <X />
+            <X size={18} />
             Discard
           </Button>
         </>
