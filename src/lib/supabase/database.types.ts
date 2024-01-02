@@ -99,6 +99,7 @@ export interface Database {
           created_at: string
           diagnosis: string | null
           id: string
+          medical_record: string | null
           patient: string
           therapist: string
           treatment: string | null
@@ -107,6 +108,7 @@ export interface Database {
           created_at?: string
           diagnosis?: string | null
           id?: string
+          medical_record?: string | null
           patient: string
           therapist: string
           treatment?: string | null
@@ -115,6 +117,7 @@ export interface Database {
           created_at?: string
           diagnosis?: string | null
           id?: string
+          medical_record?: string | null
           patient?: string
           therapist?: string
           treatment?: string | null
@@ -399,6 +402,7 @@ export interface Database {
           email: string
           diagnosis: string
           treatment: string
+          medical_record: string
         }[]
       }
       search_excercises: {

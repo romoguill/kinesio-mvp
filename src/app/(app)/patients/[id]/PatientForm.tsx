@@ -1,9 +1,6 @@
 'use client';
 
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { Database } from '@/lib/supabase/database.types';
-import { useRouter } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -13,15 +10,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { ExerciseTags } from '@/utils/types';
-import { Checkbox } from '@/components/ui/checkbox';
-import { cn } from '@/lib/utils';
-import toast from 'react-hot-toast';
 import Spinner from '@/components/utils/Spinner';
-import { nanoid } from 'nanoid';
-import { createExcercise, updateExcercise } from '@/lib/supabase/queries';
+import { Database } from '@/lib/supabase/database.types';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 type PatientProfile = {
   id: string;

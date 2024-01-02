@@ -9,48 +9,52 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
-interface DiagnosisFormProps {
+interface MedicalRecordFormProps {
   patient:
     | Database['public']['Functions']['get_patients']['Returns'][number]
     | null;
 }
 
-function DiagnosisForm({ patient }: DiagnosisFormProps) {
+function MedicalRecordForm({ patient }: MedicalRecordFormProps) {
   const [editMode, setEditMode] = useState(false);
-  const [diagnosis, setDiagnosis] = useState(patient?.diagnosis ?? '');
+  const [medicalRecord, setMedicalRecord] = useState(
+    patient?.medical_record ?? ''
+  );
   const [lastSavedContent, setLastSavedContent] = useState(
-    patient?.diagnosis ?? ''
+    patient?.medical_record ?? ''
   );
   const supabase = createClientComponentClient<Database>();
 
   useEffect(() => {
-    if (patient?.diagnosis) setDiagnosis(patient?.diagnosis);
+    if (patient?.medical_record) setMedicalRecord(patient?.medical_record);
   }, [patient]);
 
   const handleUpdate = async () => {
     if (!patient?.id) return;
 
-    const { error } = await updatePatient(patient?.id, { diagnosis });
+    const { error } = await updatePatient(patient?.id, {
+      medical_record: medicalRecord,
+    });
 
     if (error) {
-      toast.error("Couldn't update diagnosis. Try again later");
+      toast.error("Couldn't update Medical Record. Try again later");
       return;
     }
 
     setEditMode(false);
-    setLastSavedContent(diagnosis);
+    setLastSavedContent(medicalRecord);
   };
 
   const handleCancel = () => {
     setEditMode(false);
-    setDiagnosis(lastSavedContent);
+    setMedicalRecord(lastSavedContent);
   };
 
   return (
     <div className='my-6'>
       <div className='flex justify-between items-center mb-4'>
-        <Label htmlFor='diagnosis' className='text-lg'>
-          Diagnosis
+        <Label htmlFor='medicalRecord' className='text-lg'>
+          Medical Record
         </Label>
         <FormInputControls
           editMode={editMode}
@@ -61,15 +65,15 @@ function DiagnosisForm({ patient }: DiagnosisFormProps) {
       </div>
       <div onDoubleClick={() => setEditMode(true)}>
         <Textarea
-          id='diagnosis'
+          id='medicalRecord'
           disabled={!editMode}
-          className='disabled:cursor-default'
-          value={diagnosis}
-          onChange={(e) => setDiagnosis(e.target.value)}
+          className='disabled:cursor-default h-48'
+          value={medicalRecord}
+          onChange={(e) => setMedicalRecord(e.target.value)}
         />
       </div>
     </div>
   );
 }
 
-export default DiagnosisForm;
+export default MedicalRecordForm;

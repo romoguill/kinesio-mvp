@@ -6,6 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import PatientForm from './PatientForm';
 import DiagnosisForm from './DiagnosisForm';
+import MedicalRecordForm from './MedicalRecordForm';
 
 function PatientProfile() {
   const router = useRouter();
@@ -30,6 +31,7 @@ function PatientProfile() {
 
       {/* <PatientForm /> */}
       <DiagnosisForm patient={patient} />
+      <MedicalRecordForm patient={patient} />
     </section>
   );
 }
