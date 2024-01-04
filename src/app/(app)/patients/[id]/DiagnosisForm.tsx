@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Database } from '@/lib/supabase/database.types';
 import { updatePatient } from '@/lib/supabase/queries';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 
 interface DiagnosisFormProps {
@@ -18,13 +18,15 @@ interface DiagnosisFormProps {
 function DiagnosisForm({ patient }: DiagnosisFormProps) {
   const [editMode, setEditMode] = useState(false);
   const [diagnosis, setDiagnosis] = useState(patient?.diagnosis ?? '');
-  const [lastSavedContent, setLastSavedContent] = useState(
-    patient?.diagnosis ?? ''
-  );
+  const lastSavedContent = useRef(patient?.medical_record ?? '');
+
   const supabase = createClientComponentClient<Database>();
 
   useEffect(() => {
-    if (patient?.diagnosis) setDiagnosis(patient?.diagnosis);
+    if (patient?.diagnosis) {
+      setDiagnosis(patient?.diagnosis);
+      lastSavedContent.current = patient?.diagnosis;
+    }
   }, [patient]);
 
   const handleUpdate = async () => {
@@ -38,12 +40,12 @@ function DiagnosisForm({ patient }: DiagnosisFormProps) {
     }
 
     setEditMode(false);
-    setLastSavedContent(diagnosis);
+    lastSavedContent.current = diagnosis;
   };
 
   const handleCancel = () => {
     setEditMode(false);
-    setDiagnosis(lastSavedContent);
+    setDiagnosis(lastSavedContent.current);
   };
 
   return (
@@ -63,7 +65,7 @@ function DiagnosisForm({ patient }: DiagnosisFormProps) {
         <Textarea
           id='diagnosis'
           disabled={!editMode}
-          className='disabled:cursor-default'
+          className='disabled:cursor-default disabled:text-white disabled:opacity-80'
           value={diagnosis}
           onChange={(e) => setDiagnosis(e.target.value)}
         />

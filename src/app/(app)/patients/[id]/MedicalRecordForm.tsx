@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Database } from '@/lib/supabase/database.types';
 import { updatePatient } from '@/lib/supabase/queries';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 
 interface MedicalRecordFormProps {
@@ -20,13 +20,15 @@ function MedicalRecordForm({ patient }: MedicalRecordFormProps) {
   const [medicalRecord, setMedicalRecord] = useState(
     patient?.medical_record ?? ''
   );
-  const [lastSavedContent, setLastSavedContent] = useState(
-    patient?.medical_record ?? ''
-  );
+  const lastSavedContent = useRef(patient?.medical_record ?? '');
+
   const supabase = createClientComponentClient<Database>();
 
   useEffect(() => {
-    if (patient?.medical_record) setMedicalRecord(patient?.medical_record);
+    if (patient?.medical_record) {
+      setMedicalRecord(patient?.medical_record);
+      lastSavedContent.current = patient?.medical_record;
+    }
   }, [patient]);
 
   const handleUpdate = async () => {
@@ -42,12 +44,12 @@ function MedicalRecordForm({ patient }: MedicalRecordFormProps) {
     }
 
     setEditMode(false);
-    setLastSavedContent(medicalRecord);
+    lastSavedContent.current = medicalRecord;
   };
 
   const handleCancel = () => {
     setEditMode(false);
-    setMedicalRecord(lastSavedContent);
+    setMedicalRecord(lastSavedContent.current);
   };
 
   return (
@@ -67,7 +69,7 @@ function MedicalRecordForm({ patient }: MedicalRecordFormProps) {
         <Textarea
           id='medicalRecord'
           disabled={!editMode}
-          className='disabled:cursor-default h-48'
+          className='disabled:cursor-default disabled:text-white disabled:opacity-80 h-48'
           value={medicalRecord}
           onChange={(e) => setMedicalRecord(e.target.value)}
         />
